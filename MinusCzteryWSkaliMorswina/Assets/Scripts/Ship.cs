@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour {
 
-    public GameObject fan;
+    private GameState gameState;
 
 	// Use this for initialization
 	void Start () {
-		
+         gameState = GameObject.Find("GameState").GetComponent<GameState>();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        Collider2D col = fan.GetComponent<Collider2D>();
+        Fan fan = gameState.currentFan;
+        Collider2D col = fan.gameObject.GetComponent<Collider2D>();
 
         bool inFan = col.OverlapPoint(new Vector2(transform.position.x, transform.position.y));
 

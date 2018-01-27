@@ -38,10 +38,6 @@ public class ShipSpawner : MonoBehaviour {
             {
                 toSpawn = SpawnInterval;
                 GameObject ship = (GameObject)Instantiate(ShipPrefab, transform.position, transform.rotation);
-
-                GameState gameState = GameObject.Find("GameState").GetComponent<GameState>();
-
-                ship.GetComponent<Ship>().fan = gameState.CurrentFan;
             }
         }
 	}
