@@ -23,6 +23,7 @@ public class GameState : MonoBehaviour {
 			currentFan.isActive = false;
 			currentFan = fanlist [idx];
 			currentFan.isActive = true;
+            GetComponent<AudioSource>().Play();
 		}
 	}
 }
