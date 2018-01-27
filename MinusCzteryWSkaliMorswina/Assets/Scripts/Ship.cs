@@ -16,12 +16,20 @@ public class Ship : MonoBehaviour {
         Collider2D col = fan.GetComponent<Collider2D>();
 
         bool inFan = col.OverlapPoint(new Vector2(transform.position.x, transform.position.y));
-        Debug.Log(inFan);
 
         if (inFan)
         {
+            float distance = Vector2.Distance(transform.position, fan.transform.position);
+            float magnitude = Mathf.Max(3, 10 - distance) / 6;
+
+            Ray2D ray = new Ray2D(fan.transform.position, fan.transform.rotation * new Vector2(0, 1));
+            float centerDistance = Vector3.Cross(ray.direction, new Vector2(transform.position.x, transform.position.y) - ray.origin).magnitude;
+
+            magnitude = Mathf.Max(0, magnitude - centerDistance * 0.5f);
+            Debug.Log(magnitude);
+
             Vector3 direction = fan.transform.rotation * new Vector3(0, 1, 1);
-            transform.position += Time.deltaTime * 1 * direction;
+            transform.position += Time.deltaTime * magnitude * direction;
         }
 	}
 }
