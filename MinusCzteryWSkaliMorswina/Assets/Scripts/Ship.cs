@@ -36,7 +36,7 @@ public class Ship : MonoBehaviour {
 
             rotation.x = 0;
             rotation.y = 0;
-            transform.rotation = rotation;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, Time.deltaTime * 128);
         }
 	}
 }
