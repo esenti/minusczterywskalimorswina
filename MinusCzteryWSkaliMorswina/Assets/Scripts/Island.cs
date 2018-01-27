@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Island : MonoBehaviour
 {
+    public bool isSick = true;
 
     // Use this for initialization
     void Start()
@@ -19,6 +20,11 @@ public class Island : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        if(!isSick)
+        {
+            return;
+        }
+
         Debug.Log(other);
         Virus[] viruses = GetComponentsInChildren<Virus>();
 
@@ -28,5 +34,17 @@ public class Island : MonoBehaviour
         }
 
         Destroy(other.gameObject);
+
+        if(viruses.Length <= 3)
+        {
+            isSick = false;
+            GameState gameState = GameObject.Find("GameState").GetComponent<GameState>();
+            GameObject fan = (GameObject)Instantiate(gameState.FanPrefab, transform.position, transform.rotation);
+
+            foreach(VirusSpawner spawner in gameObject.GetComponents<VirusSpawner>())
+            {
+                spawner.enabled = false;
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ public class GameState : MonoBehaviour {
 
     public GameObject CurrentFan;
 	public Fan currentFan;
+    public GameObject FanPrefab;
 
 	// Use this for initialization
 	void Start () {
