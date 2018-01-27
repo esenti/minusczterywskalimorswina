@@ -29,7 +29,13 @@ public class Ship : MonoBehaviour {
             Debug.Log(magnitude);
 
             Vector3 direction = fan.transform.rotation * new Vector3(0, 1, 1);
-            transform.position += Time.deltaTime * magnitude * direction;
+            Vector3 fromFan = (transform.position - fan.transform.position).normalized;
+            transform.position += Time.deltaTime * magnitude * fromFan;
+
+            Quaternion rotation = Quaternion.LookRotation(fromFan);
+            rotation.x = 0;
+            rotation.y = 0;
+            transform.rotation = rotation;
         }
 	}
 }
