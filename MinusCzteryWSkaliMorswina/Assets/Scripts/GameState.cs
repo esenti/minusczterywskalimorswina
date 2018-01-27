@@ -9,6 +9,7 @@ public class GameState : MonoBehaviour {
     public GameObject CurrentFan;
 	public Fan currentFan;
     public GameObject FanPrefab;
+    public int Health = 10;
 
 	// Use this for initialization
 	void Start () {

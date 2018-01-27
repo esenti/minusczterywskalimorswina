@@ -37,12 +37,12 @@ public class Ship : MonoBehaviour {
         if (inFan)
         {
             float distance = Vector2.Distance(transform.position, fan.transform.position);
-            float magnitude = Mathf.Max(3, 10 - distance) / 6;
+            float magnitude = Mathf.Max(3, 10 - distance) / 2;
 
             Ray2D ray = new Ray2D(fan.transform.position, fan.transform.rotation * new Vector2(0, 1));
             float centerDistance = Vector3.Cross(ray.direction, new Vector2(transform.position.x, transform.position.y) - ray.origin).magnitude;
 
-            magnitude = Mathf.Max(0, magnitude - centerDistance * 0.5f);
+            magnitude = Mathf.Max(0, magnitude - centerDistance * 0.4f);
 
             Vector3 direction = fan.transform.rotation * new Vector3(0, 1, 1);
             Vector3 fromFan = (transform.position - fan.transform.position).normalized;
