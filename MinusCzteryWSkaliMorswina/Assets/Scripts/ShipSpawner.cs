@@ -20,12 +20,29 @@ public class ShipSpawner : MonoBehaviour {
 
         if(toSpawn <= 0)
         {
-            toSpawn = SpawnInterval;
-            GameObject ship = (GameObject)Instantiate(ShipPrefab, transform.position, transform.rotation);
+            CircleCollider2D[] colliders = FindObjectsOfType<CircleCollider2D>();
+            bool spawn = true;
 
-            GameState gameState = GameObject.Find("GameState").GetComponent<GameState>();
+            foreach(CircleCollider2D collider in colliders)
+            {
+                if(collider.OverlapPoint(transform.position))
+                {
+                    Debug.Log("Cannot spawn, something is blocking the way!");
+                    toSpawn = 0.5f;
+                    spawn = false;
+                    break;
+                }
+            }
 
-            ship.GetComponent<Ship>().fan = gameState.CurrentFan;
+            if (spawn)
+            {
+                toSpawn = SpawnInterval;
+                GameObject ship = (GameObject)Instantiate(ShipPrefab, transform.position, transform.rotation);
+
+                GameState gameState = GameObject.Find("GameState").GetComponent<GameState>();
+
+                ship.GetComponent<Ship>().fan = gameState.CurrentFan;
+            }
         }
 	}
 }

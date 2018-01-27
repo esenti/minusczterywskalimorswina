@@ -26,7 +26,6 @@ public class Ship : MonoBehaviour {
             float centerDistance = Vector3.Cross(ray.direction, new Vector2(transform.position.x, transform.position.y) - ray.origin).magnitude;
 
             magnitude = Mathf.Max(0, magnitude - centerDistance * 0.5f);
-            Debug.Log(magnitude);
 
             Vector3 direction = fan.transform.rotation * new Vector3(0, 1, 1);
             Vector3 fromFan = (transform.position - fan.transform.position).normalized;
