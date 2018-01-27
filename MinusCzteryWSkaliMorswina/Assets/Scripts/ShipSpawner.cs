@@ -6,6 +6,7 @@ public class ShipSpawner : MonoBehaviour {
 
     public Object ShipPrefab;
     public float SpawnInterval = 5;
+    public bool IsFriendly = true;
 
     private float toSpawn = 1;
 
@@ -15,6 +16,11 @@ public class ShipSpawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if(!IsFriendly)
+        {
+            return;
+        }
 
         toSpawn -= Time.deltaTime;
 
@@ -37,8 +43,15 @@ public class ShipSpawner : MonoBehaviour {
             if (spawn)
             {
                 toSpawn = SpawnInterval;
-                GameObject ship = (GameObject)Instantiate(ShipPrefab, transform.position, transform.rotation);
+                Spawn();
             }
         }
 	}
+
+    public GameObject Spawn()
+    {
+        GameObject ship = (GameObject)Instantiate(ShipPrefab, transform.position, transform.rotation);
+
+        return ship;
+    }
 }

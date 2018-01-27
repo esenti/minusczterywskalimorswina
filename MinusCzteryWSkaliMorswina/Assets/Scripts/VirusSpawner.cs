@@ -6,6 +6,7 @@ public class VirusSpawner : MonoBehaviour {
 
     public GameObject Virus;
     public float SpawnInterval = 5;
+    public int MaxViruses = 10;
 
     private float toSpawn = 1;
 
@@ -21,20 +22,31 @@ public class VirusSpawner : MonoBehaviour {
         if(toSpawn <= 0)
         {
             toSpawn = SpawnInterval;
-            PolygonCollider2D col = GetComponent<PolygonCollider2D>();
-            Vector2 position;
-
-            while(true)
+            
+            Virus[] viruses = GetComponentsInChildren<Virus>();
+            if (viruses.Length >= MaxViruses)
             {
-                position = Random.insideUnitCircle * 10;
-                bool inSpawnZone = col.OverlapPoint(position);
-
-                if(inSpawnZone)
-                {
-                    break;
-                }
+                ShipSpawner shipSpawner = GetComponentInChildren<ShipSpawner>();
+                GameObject ship = shipSpawner.Spawn();
+                ship.GetComponent<Ship>().IsFriendly = false;
             }
-            GameObject virus = (GameObject)Instantiate(Virus, position, transform.rotation, transform);
+            else
+            {
+                PolygonCollider2D col = GetComponent<PolygonCollider2D>();
+                Vector2 position;
+
+                while (true)
+                {
+                    position = Random.insideUnitCircle * 10;
+                    bool inSpawnZone = col.OverlapPoint(position);
+
+                    if (inSpawnZone)
+                    {
+                        break;
+                    }
+                }
+                GameObject virus = (GameObject)Instantiate(Virus, position, transform.rotation, transform);
+            }
         }
 		
 	}

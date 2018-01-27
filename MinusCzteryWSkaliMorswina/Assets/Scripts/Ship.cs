@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour {
 
+    public bool IsFriendly = true;
+
     private GameState gameState;
 
 	// Use this for initialization
@@ -15,6 +17,19 @@ public class Ship : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Fan fan = gameState.currentFan;
+
+        if(!IsFriendly)
+        {
+            Vector3 toFan = (fan.transform.position - transform.position).normalized;
+            transform.position += Time.deltaTime * toFan * 0.5f;
+
+            Quaternion rotation = Quaternion.LookRotation(toFan, Vector3.forward);
+            rotation.x = 0;
+            rotation.y = 0;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, Time.deltaTime * 128);
+            Debug.Log("attack!");
+        }
+
         Collider2D col = fan.gameObject.GetComponent<Collider2D>();
 
         bool inFan = col.OverlapPoint(new Vector2(transform.position.x, transform.position.y));
