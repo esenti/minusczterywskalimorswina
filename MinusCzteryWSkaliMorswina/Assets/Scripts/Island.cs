@@ -48,13 +48,18 @@ public class Island : MonoBehaviour
         }
         else
         {
-            GameState gameState = GameObject.Find("GameState").GetComponent<GameState>();
+            Ship ship = other.gameObject.GetComponent<Ship>();
             Destroy(other.gameObject);
-            --gameState.Health;
 
-            if(gameState.Health <= 0)
+            if (ship && !ship.IsFriendly)
             {
-                Application.LoadLevel("GameOverScreen");
+                GameState gameState = GameObject.Find("GameState").GetComponent<GameState>();
+                --gameState.Health;
+
+                if (gameState.Health <= 0)
+                {
+                    Application.LoadLevel("GameOverScreen");
+                }
             }
         }
     }
