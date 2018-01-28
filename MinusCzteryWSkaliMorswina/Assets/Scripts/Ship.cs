@@ -8,6 +8,12 @@ public class Ship : MonoBehaviour {
 
     private GameState gameState;
 
+    public void MakeUnfriendly()
+    {
+        IsFriendly = false;
+        transform.Find("Ship virus").gameObject.SetActive(true);
+    }
+
 	// Use this for initialization
 	void Start () {
          gameState = GameObject.Find("GameState").GetComponent<GameState>();

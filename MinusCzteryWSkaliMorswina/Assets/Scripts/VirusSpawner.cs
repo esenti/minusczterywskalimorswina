@@ -28,7 +28,7 @@ public class VirusSpawner : MonoBehaviour {
             {
                 ShipSpawner shipSpawner = GetComponentInChildren<ShipSpawner>();
                 GameObject ship = shipSpawner.Spawn();
-                ship.GetComponent<Ship>().IsFriendly = false;
+                ship.GetComponent<Ship>().MakeUnfriendly();
             }
             else
             {
