@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameState : MonoBehaviour {
 
@@ -10,6 +11,7 @@ public class GameState : MonoBehaviour {
 	public Fan currentFan;
     public GameObject FanPrefab;
     public int Health = 10;
+	public GameObject HealthText;
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +27,7 @@ public class GameState : MonoBehaviour {
 			currentFan = fanlist [idx];
 			currentFan.isActive = true;
             GetComponent<AudioSource>().Play();
+			HealthText.GetComponent<Text>().text = Health.ToString();
 		}
 	}
 }
