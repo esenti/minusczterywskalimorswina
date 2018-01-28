@@ -39,12 +39,14 @@ public class Island : MonoBehaviour
 
                 Destroy(other.gameObject);
 
+                Debug.Log(viruses.Length);
                 if (viruses.Length <= 3)
                 {
                     isSick = false;
                     GameState gameState = GameObject.Find("GameState").GetComponent<GameState>();
                     GameObject fan = (GameObject)Instantiate(gameState.FanPrefab, transform.position, transform.rotation);
                     myFan = fan;
+                    Debug.Log("SPAWN FUN");
 
                     foreach (VirusSpawner spawner in gameObject.GetComponents<VirusSpawner>())
                     {
