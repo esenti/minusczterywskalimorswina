@@ -58,7 +58,12 @@ public class Island : MonoBehaviour
             else
             {
                 Destroy(other.gameObject);
-                GetComponentInChildren<VirusSpawner>().Spawn();
+                VirusSpawner spawner = GetComponentInChildren<VirusSpawner>();
+
+                if(ship.Spawner != GetComponentInChildren<ShipSpawner>())
+                {
+                    spawner.Spawn();
+                }
             }
         }
         else

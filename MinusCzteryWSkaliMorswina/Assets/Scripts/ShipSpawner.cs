@@ -56,6 +56,7 @@ public class ShipSpawner : MonoBehaviour {
         GameObject target = targets[Random.Range(0, targets.Count)];
 
         ship.GetComponent<Ship>().SetTarget(target);
+        ship.GetComponent<Ship>().Spawner = this;
 
         return ship;
     }
