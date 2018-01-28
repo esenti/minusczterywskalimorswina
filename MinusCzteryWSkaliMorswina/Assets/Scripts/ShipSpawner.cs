@@ -7,6 +7,7 @@ public class ShipSpawner : MonoBehaviour {
     public Object ShipPrefab;
     public float SpawnInterval = 5;
     public bool IsFriendly = true;
+    public List<GameObject> targets = new List<GameObject>();
 
     private float toSpawn = 1;
 
@@ -51,6 +52,9 @@ public class ShipSpawner : MonoBehaviour {
     public GameObject Spawn()
     {
         GameObject ship = (GameObject)Instantiate(ShipPrefab, transform.position, transform.rotation);
+        GameObject target = targets[Random.Range(0, targets.Count)];
+
+        ship.GetComponent<Ship>().SetTarget(target);
 
         return ship;
     }

@@ -7,12 +7,18 @@ public class Ship : MonoBehaviour {
     public bool IsFriendly = true;
 
     private GameState gameState;
+    private Transform target;
 
     public void MakeUnfriendly()
     {
         IsFriendly = false;
         transform.Find("Ship virus").gameObject.SetActive(true);
         transform.Find("Ampulka").gameObject.SetActive(false);
+    }
+
+    public void SetTarget(GameObject target_)
+    {
+        target = target_.transform;
     }
 
 	// Use this for initialization
@@ -27,10 +33,10 @@ public class Ship : MonoBehaviour {
 
         if(!IsFriendly)
         {
-            Vector3 toFan = (fan.transform.position - transform.position).normalized;
-            transform.position += Time.deltaTime * toFan * 0.5f;
+            Vector3 toTarget = (target.position - transform.position).normalized;
+            transform.position += Time.deltaTime * toTarget * 0.5f;
 
-            Quaternion rotation = Quaternion.LookRotation(toFan, Vector3.forward);
+            Quaternion rotation = Quaternion.LookRotation(toTarget, Vector3.forward);
             rotation.x = 0;
             rotation.y = 0;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, Time.deltaTime * 128);

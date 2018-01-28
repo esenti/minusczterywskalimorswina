@@ -5,6 +5,7 @@ using UnityEngine;
 public class Island : MonoBehaviour
 {
     public bool isSick = true;
+    public bool isMain = false;
 
     // Use this for initialization
     void Start()
@@ -20,46 +21,64 @@ public class Island : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        Ship ship = other.gameObject.GetComponent<Ship>();
+
         if (isSick)
         {
             Debug.Log(other);
-            Virus[] viruses = GetComponentsInChildren<Virus>();
 
-            for (int i = 0; i < System.Math.Min(viruses.Length, 3); ++i)
+            if (ship.IsFriendly)
             {
-                Destroy(viruses[i].gameObject);
-            }
+                Virus[] viruses = GetComponentsInChildren<Virus>();
 
-            Destroy(other.gameObject);
-
-            if (viruses.Length <= 3)
-            {
-                isSick = false;
-                GameState gameState = GameObject.Find("GameState").GetComponent<GameState>();
-                GameObject fan = (GameObject)Instantiate(gameState.FanPrefab, transform.position, transform.rotation);
-
-                foreach (VirusSpawner spawner in gameObject.GetComponents<VirusSpawner>())
+                for (int i = 0; i < System.Math.Min(viruses.Length, 3); ++i)
                 {
-                    spawner.enabled = false;
+                    Destroy(viruses[i].gameObject);
                 }
 
-                GetComponentInChildren<ShipSpawner>().IsFriendly = true;
-                GetComponentInChildren<ShipSpawner>().gameObject.SetActive(false);
+                Destroy(other.gameObject);
+
+                if (viruses.Length <= 3)
+                {
+                    isSick = false;
+                    GameState gameState = GameObject.Find("GameState").GetComponent<GameState>();
+                    GameObject fan = (GameObject)Instantiate(gameState.FanPrefab, transform.position, transform.rotation, transform);
+
+                    foreach (VirusSpawner spawner in gameObject.GetComponents<VirusSpawner>())
+                    {
+                        spawner.enabled = false;
+                    }
+
+                    GetComponentInChildren<ShipSpawner>().IsFriendly = true;
+                    GetComponentInChildren<ShipSpawner>().gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                Destroy(other.gameObject);
+                GetComponentInChildren<VirusSpawner>().Spawn();
             }
         }
         else
         {
-            Ship ship = other.gameObject.GetComponent<Ship>();
             Destroy(other.gameObject);
 
             if (ship && !ship.IsFriendly)
             {
-                GameState gameState = GameObject.Find("GameState").GetComponent<GameState>();
-                --gameState.Health;
-
-                if (gameState.Health <= 0)
+                if (isMain)
                 {
-                    Application.LoadLevel("GameOverScreen");
+                    GameState gameState = GameObject.Find("GameState").GetComponent<GameState>();
+                    --gameState.Health;
+
+                    if (gameState.Health <= 0)
+                    {
+                        Application.LoadLevel("GameOverScreen");
+                    }
+                }
+                else
+                {
+                    //Destroy(Universe);
+                    GetComponentInChildren<VirusSpawner>().Spawn();
                 }
             }
         }
