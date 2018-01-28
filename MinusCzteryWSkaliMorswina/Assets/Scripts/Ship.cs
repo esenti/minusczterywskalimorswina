@@ -12,6 +12,7 @@ public class Ship : MonoBehaviour {
     {
         IsFriendly = false;
         transform.Find("Ship virus").gameObject.SetActive(true);
+        transform.Find("Ampulka").gameObject.SetActive(false);
     }
 
 	// Use this for initialization

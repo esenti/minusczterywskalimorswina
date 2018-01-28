@@ -44,6 +44,7 @@ public class Island : MonoBehaviour
                 }
 
                 GetComponentInChildren<ShipSpawner>().IsFriendly = true;
+                GetComponentInChildren<ShipSpawner>().gameObject.SetActive(false);
             }
         }
         else
