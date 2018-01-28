@@ -6,6 +6,7 @@ public class Island : MonoBehaviour
 {
     public bool isSick = true;
     public bool isMain = false;
+    public GameObject myFan;
 
     // Use this for initialization
     void Start()
@@ -42,7 +43,8 @@ public class Island : MonoBehaviour
                 {
                     isSick = false;
                     GameState gameState = GameObject.Find("GameState").GetComponent<GameState>();
-                    GameObject fan = (GameObject)Instantiate(gameState.FanPrefab, transform.position, transform.rotation, transform);
+                    GameObject fan = (GameObject)Instantiate(gameState.FanPrefab, transform.position, transform.rotation);
+                    myFan = fan;
 
                     foreach (VirusSpawner spawner in gameObject.GetComponents<VirusSpawner>())
                     {
@@ -50,7 +52,7 @@ public class Island : MonoBehaviour
                     }
 
                     GetComponentInChildren<ShipSpawner>().IsFriendly = true;
-                    GetComponentInChildren<ShipSpawner>().gameObject.SetActive(false);
+                    GetComponentInChildren<ShipSpawner>().EnableSpawn = false;
                 }
             }
             else
@@ -65,9 +67,10 @@ public class Island : MonoBehaviour
 
             if (ship && !ship.IsFriendly)
             {
+                GameState gameState = GameObject.Find("GameState").GetComponent<GameState>();
+
                 if (isMain)
                 {
-                    GameState gameState = GameObject.Find("GameState").GetComponent<GameState>();
                     --gameState.Health;
 
                     if (gameState.Health <= 0)
@@ -77,7 +80,27 @@ public class Island : MonoBehaviour
                 }
                 else
                 {
-                    //Destroy(Universe);
+                    isSick = true;
+                    Fan fan = myFan.GetComponent<Fan>();
+
+                    foreach (VirusSpawner spawner in gameObject.GetComponents<VirusSpawner>())
+                    {
+                        spawner.enabled = true;
+                    }
+
+                    GetComponentInChildren<ShipSpawner>().IsFriendly = false;
+                    GetComponentInChildren<ShipSpawner>().EnableSpawn = true;
+
+                    if (gameState.currentFan == fan)
+                    {
+                        int idx = (gameState.fanlist.IndexOf(gameState.currentFan) + 1) % gameState.fanlist.Count;
+                        gameState.currentFan = gameState.fanlist[idx];
+                        gameState.currentFan.isActive = true;
+                    }
+
+                    gameState.fanlist.Remove(fan);
+
+                    Destroy(fan.gameObject);
                     GetComponentInChildren<VirusSpawner>().Spawn();
                 }
             }

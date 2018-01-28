@@ -14,7 +14,7 @@ public class Fan : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        GetComponentInChildren<ParticleSystem>().enableEmission= isActive;
+        GetComponentInChildren<ParticleSystem>().enableEmission = isActive;
         float horizontal = Input.GetAxis("Horizontal");
 		if (isActive) {
 			transform.Rotate (new Vector3 (0, 0, -100 * horizontal * Time.deltaTime));
