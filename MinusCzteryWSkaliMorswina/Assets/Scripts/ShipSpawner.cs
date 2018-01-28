@@ -7,6 +7,7 @@ public class ShipSpawner : MonoBehaviour {
     public Object ShipPrefab;
     public float SpawnInterval = 5;
     public bool IsFriendly = true;
+    public bool EnableSpawn = true;
     public List<GameObject> targets = new List<GameObject>();
 
     private float toSpawn = 1;
@@ -18,7 +19,7 @@ public class ShipSpawner : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if(!IsFriendly)
+        if(!IsFriendly || !EnableSpawn)
         {
             return;
         }
@@ -55,6 +56,7 @@ public class ShipSpawner : MonoBehaviour {
         GameObject target = targets[Random.Range(0, targets.Count)];
 
         ship.GetComponent<Ship>().SetTarget(target);
+        ship.GetComponent<Ship>().Spawner = this;
 
         return ship;
     }

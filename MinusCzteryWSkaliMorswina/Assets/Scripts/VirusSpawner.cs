@@ -40,6 +40,7 @@ public class VirusSpawner : MonoBehaviour {
                 if (spawn)
                 {
                     GameObject virus = (GameObject)Instantiate(Virus, position, transform.rotation, transform);
+                    Debug.Log("SPAWNED");
                 }
                 else
                 {

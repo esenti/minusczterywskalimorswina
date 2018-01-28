@@ -8,6 +8,7 @@ public class Ship : MonoBehaviour {
 
     private GameState gameState;
     private Transform target;
+    public ShipSpawner Spawner;
 
     public void MakeUnfriendly()
     {
