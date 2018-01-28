@@ -27,7 +27,7 @@ public class GameState : MonoBehaviour {
 			currentFan = fanlist [idx];
 			currentFan.isActive = true;
             GetComponent<AudioSource>().Play();
-			HealthText.GetComponent<Text>().text = Health.ToString();
 		}
+		HealthText.GetComponent<Text>().text = Health.ToString();
 	}
 }
